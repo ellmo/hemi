@@ -1,6 +1,8 @@
 module Engine::Render
   class Window
 
+    attr_reader :fonts
+
     def initialize(width, height)
       @sdl_window = SDL2::Window.create(
         "title",

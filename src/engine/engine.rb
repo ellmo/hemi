@@ -9,7 +9,7 @@ class Engine
   DEFAULT_VIDEO_WIDTH  = 640
   DEFAULT_VIDEO_HEIGHT = 480
 
-  attr_reader :window, :debug
+  attr_reader :window, :text, :debug
 
   def initialize(vid_height = nil, vid_width = nil)
     @vid_height = vid_height
@@ -22,6 +22,7 @@ class Engine
 
   def run
     init_window
+    init_text
     start_loop
   end
 
@@ -36,7 +37,7 @@ class Engine
 private
 
   def sdl_init
-    SDL2.init(SDL2::INIT_VIDEO | SDL2::INIT_EVENTS)
+    SDL2.init(SDL2::INIT_EVERYTHING)
   end
 
   def load_trees
@@ -47,6 +48,12 @@ private
 
   def init_window
     @window = Engine::Render::Window.new(vid_width, vid_height)
+  end
+
+  def init_text
+    @text = Engine::Render::Text.new(window)
+    text.register_font(:jost, "asset/jost.ttf")
+    text.render(:jost, "asd")
   end
 
   def start_loop
