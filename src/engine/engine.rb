@@ -53,10 +53,9 @@ private
   def init_text
     @text = Engine::Render::Text.new(window)
     text.register_font(:jost, "asset/jost.ttf")
-    text.render(:jost, "asd")
   end
 
   def start_loop
-    @event_loop = Engine::Event::EventLoop.new(window)
+    @event_loop = Engine::Event::EventLoop.new(window, text)
   end
 end
