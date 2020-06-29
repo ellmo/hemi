@@ -1,3 +1,5 @@
 .bundle/
 .yardoc/
 
+vendor/bundle/
+
