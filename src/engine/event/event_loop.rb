@@ -9,6 +9,7 @@ module Engine::Event
       loop do
         while poll_event
           exit if key_is?(:escape)
+          exit if key_is?(:q)
         end
 
         window.renderer.present
