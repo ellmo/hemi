@@ -2,8 +2,11 @@ require "sdl2"
 
 module Engine::Render
   class Font
+    ALLOWED_MODES = %i[solid blended shaded].freeze
 
-    attr_reader :font_file, :font
+    ERR__INVALID_MODE = "Invalid render mode specified".freeze
+
+    attr_reader :font_file, :font, :size
 
     def initialize(font_file, size: 32)
       @font_file = font_file
@@ -11,8 +14,11 @@ module Engine::Render
       load_font!
     end
 
-    def render(text)
-      font.render_solid(text, [255, 255, 255])
+    def render(text, color: [255, 255, 255], mode: :blended)
+      raise(ERR__INVALID_MODE) unless ALLOWED_MODES.include? mode
+
+      render_mode = "render_#{mode}"
+      font.send(render_mode, text, color)
     end
 
   private
