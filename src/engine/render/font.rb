@@ -14,11 +14,15 @@ module Engine::Render
       load_font!
     end
 
-    def render(text, color: [255, 255, 255], mode: :blended)
+    def render(text, color: [255, 255, 255], mode: :blended, shade: [0, 0, 0])
       raise(ERR__INVALID_MODE) unless ALLOWED_MODES.include? mode
 
-      render_mode = "render_#{mode}"
-      font.send(render_mode, text, color)
+      case mode
+      when :blended, :solid
+        font.send("render_#{mode}", text, color)
+      when :shaded
+        font.render_shaded(text, color, shade)
+      end
     end
 
   private
