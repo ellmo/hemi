@@ -20,11 +20,14 @@ module Engine::Event
         while poll_event
           exit if key_is?(:escape)
           exit if key_is?(:q)
+
+          Engine.debug_on! if key_is?(:f12)
         end
 
         render_texts
 
         present
+        debug!
         sleep 0.1
       end
     end
@@ -49,6 +52,11 @@ module Engine::Event
 
       keycode = keycode.to_s.upcase
       event.scancode == SDL2::Key::Scan.const_get(keycode)
+    end
+
+    def debug!
+      binding.pry if Engine.debug # rubocop:disable Lint/Debugger
+      Engine.debug_off!
     end
   end
 end

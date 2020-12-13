@@ -16,10 +16,11 @@ class Engine
 
   def_delegator :window, :renderer
 
+  @debug = false
+
   def initialize(vid_height = nil, vid_width = nil)
     @vid_height = vid_height
     @vid_width  = vid_width
-    @debug      = false
 
     sdl_init
     load_trees
@@ -37,6 +38,18 @@ class Engine
 
   def vid_width
     @vid_width ||= DEFAULT_VIDEO_WIDTH
+  end
+
+  class << self
+    attr_reader :debug
+
+    def debug_on!
+      @debug = true
+    end
+
+    def debug_off!
+      @debug = false
+    end
   end
 
 private
