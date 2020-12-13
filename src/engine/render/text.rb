@@ -15,8 +15,8 @@ module Engine::Render
       @fonts = {}
     end
 
-    def register_font(name, font_file)
-      @fonts[name] = Engine::Render::Font.new(font_file, size: 16)
+    def register_font(name, font_file, size: 16)
+      @fonts[name] = Engine::Render::Font.new(font_file, size: size)
     end
 
     def render(font_name, text, position: nil, size: nil, mode: :blended)
