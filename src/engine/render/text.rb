@@ -32,7 +32,7 @@ module Engine::Render
 
     def register_font!(name, src: nil, size: 16)
       compound_name = "#{name}_#{size}"
-      font_path     = src || "asset/#{name}.ttf"
+      font_path     = src || "assets/fonts/#{name}.ttf"
 
       fonts[compound_name] ||
         (@fonts[compound_name] = Engine::Render::Font.new(font_path, size: size))
