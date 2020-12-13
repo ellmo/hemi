@@ -2,10 +2,6 @@ require "forwardable"
 
 module Engine::Render
   class Window
-    extend Forwardable
-
-    attr_reader :fonts, :size
-
     def initialize(width, height)
       @size = OpenStruct.new(width: width, height: height)
 
@@ -18,6 +14,8 @@ module Engine::Render
         0
       )
     end
+
+    attr_reader :fonts, :size
 
     def renderer
       @renderer ||= @sdl_window.create_renderer(-1, 0)

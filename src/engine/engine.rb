@@ -12,10 +12,6 @@ class Engine
   DEFAULT_VIDEO_WIDTH  = 640
   DEFAULT_VIDEO_HEIGHT = 480
 
-  attr_reader :window, :text, :debug
-
-  def_delegator :window, :renderer
-
   @debug = false
 
   def initialize(vid_height = nil, vid_width = nil)
@@ -25,6 +21,9 @@ class Engine
     sdl_init
     load_trees
   end
+
+  attr_reader :window, :text, :debug
+  def_delegator :window, :renderer
 
   def run
     init_window
@@ -73,6 +72,6 @@ private
   end
 
   def start_loop
-    @event_loop = Engine::Event::EventLoop.new(window, text)
+    Engine::Event::EventLoop.new(window, text).call
   end
 end

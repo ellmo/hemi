@@ -4,16 +4,17 @@ module Engine::Event
   class EventLoop
     extend Forwardable
 
-    attr_reader :window, :text, :event
+    def initialize(window, text)
+      @window = window
+      @text   = text
+    end
 
+    attr_reader :window, :text, :event
     def_delegator :window, :renderer
     def_delegator :window, :wipe_screen
     def_delegator :renderer, :present
 
-    def initialize(window, text)
-      @window = window
-      @text   = text
-
+    def call
       loop do
         wipe_screen
 
