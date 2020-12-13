@@ -1,15 +1,20 @@
 require "singleton"
+require "forwardable"
 require "sdl2"
+
 require_relative "loader"
 
 class Engine
   include Singleton
   include Loader
+  extend Forwardable
 
   DEFAULT_VIDEO_WIDTH  = 640
   DEFAULT_VIDEO_HEIGHT = 480
 
   attr_reader :window, :text, :debug
+
+  def_delegator :window, :renderer
 
   def initialize(vid_height = nil, vid_width = nil)
     @vid_height = vid_height
