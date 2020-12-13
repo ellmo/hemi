@@ -2,7 +2,6 @@ require "sdl2"
 
 module Engine::Render
   class Text
-    ERR__FONT_NOT_FOUND = "Font %s not found.".freeze
     ERR__INVALID_TEXTURE_SIZE =  "Invalid texture size.".freeze
     ERR__INVALID_POSITION = "Ivalid position.".freeze
 
@@ -12,11 +11,10 @@ module Engine::Render
       SDL2::TTF.init
       @window   = window
       @renderer = window.renderer
-      @fonts = {}
     end
 
     def render(font_name, text = nil, src: nil, position: nil, size: 16, mode: :blended)
-      font = register_font!(font_name, src: src, size: size)
+      font = register_font(font_name, src: src, size: size)
 
       text          = font.render(text, mode: mode)
       font_texture  = renderer.create_texture_from(text)
@@ -30,14 +28,8 @@ module Engine::Render
       renderer.copy(font_texture, nil, texture_rect)
     end
 
-    def register_font!(name, src: nil, size: 16)
-      compound_name = "#{name}_#{size}"
-      font_path     = src || "assets/fonts/#{name}.ttf"
-
-      fonts[compound_name] ||
-        (@fonts[compound_name] = Engine::Render::Font.new(font_path, size: size))
-    rescue SDL2::Error => _e
-      raise ArgumentError, format(ERR__FONT_NOT_FOUND, font_path)
+    def register_font(name, src: nil, size: 16)
+      Font.register(name, src: src, size: size)
     end
 
   private
