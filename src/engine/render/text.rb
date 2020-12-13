@@ -2,7 +2,7 @@ require "sdl2"
 
 module Engine::Render
   class Text
-    ERR__FONT_NOT_REG = "No font by this name is registered.".freeze
+    ERR__FONT_NOT_FOUND = "Font %s not found.".freeze
     ERR__INVALID_TEXTURE_SIZE =  "Invalid texture size.".freeze
     ERR__INVALID_POSITION = "Ivalid position.".freeze
 
@@ -15,14 +15,10 @@ module Engine::Render
       @fonts = {}
     end
 
-    def register_font(name, font_file, size: 16)
-      @fonts[name] = Engine::Render::Font.new(font_file, size: size)
-    end
+    def render(font_name, text = nil, src: nil, position: nil, size: 16, mode: :blended)
+      font = register_font!(font_name, src: src, size: size)
 
-    def render(font_name, text, position: nil, size: nil, mode: :blended)
-      check_font_registration!(font_name)
-
-      text          = fonts[font_name].render(text, mode: mode)
+      text          = font.render(text, mode: mode)
       font_texture  = renderer.create_texture_from(text)
       size          = calculate_size(font_texture, size)
       position      = calculate_position(position)
@@ -34,26 +30,30 @@ module Engine::Render
       renderer.copy(font_texture, nil, texture_rect)
     end
 
-  private
+    def register_font!(name, src: nil, size: 16)
+      compound_name = "#{name}_#{size}"
+      font_path     = src || "asset/#{name}.ttf"
 
-    def check_font_registration!(name)
-      raise ArgumentError(ERR__FONT_NOT_REG) if fonts[name].nil?
+      fonts[compound_name] ||
+        (@fonts[compound_name] = Engine::Render::Font.new(font_path, size: size))
+    rescue SDL2::Error => _e
+      raise ArgumentError, format(ERR__FONT_NOT_FOUND, font_path)
     end
+
+  private
 
     def calculate_size(texture, size = nil)
       size_obj = OpenStruct.new(height: nil, width: nil)
 
-      if size.nil?
-        size_obj.height = texture.h
-        size_obj.width = texture.w
-      elsif size.is_a? Array
+      if size.is_a? Array
         size_obj.height = size[0]
         size_obj.width  = size[1]
       elsif size.is_a? Hash
         size_obj.height = size[:height]
         size_obj.width  = size[:widht]
       else
-        raise ArgumentError(ERR__INVALID_TEXTURE_SIZE)
+        size_obj.height = texture.h
+        size_obj.width = texture.w
       end
 
       size_obj
@@ -65,10 +65,10 @@ module Engine::Render
       if position.nil?
         position_obj.x = 0
         position_obj.y = 0
-      elsif size.is_a? Array
+      elsif position.is_a? Array
         position_obj.x = position[0]
         position_obj.y = position[1]
-      elsif size.is_a? Hash
+      elsif position.is_a? Hash
         position_obj.x = position[:x]
         position_obj.y = position[:y]
       else

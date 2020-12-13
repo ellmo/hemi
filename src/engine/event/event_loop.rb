@@ -31,15 +31,12 @@ module Engine::Event
   private
 
     def render_texts
-      text.render(
-        :jost,
-        "quick brown fox jumped over the lazy dog",
-        mode: %i[solid blended shaded].sample
-      )
+      text.render(:jost, "quick brown fox jumped over the lazy dog", size: 32, position: [20, 20])
+      text.render(:jost, "quick brown fox jumped over the lazy dog", size: 16, position: [20, 200])
     end
 
     def wipe_screen
-      renderer.draw_color = [rand(0..128), rand(0..128), 0]
+      renderer.draw_color = [rand(0..255), rand(0..255), 0]
       renderer.fill_rect(SDL2::Rect.new(0, 0, winsize.width, winsize.height))
     end
 

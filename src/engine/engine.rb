@@ -57,7 +57,6 @@ private
 
   def init_text
     @text = Engine::Render::Text.new(window)
-    text.register_font(:jost, "asset/jost.ttf", size: 16)
   end
 
   def start_loop
