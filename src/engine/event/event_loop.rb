@@ -8,6 +8,7 @@ module Engine::Event
 
     def_delegator :window, :renderer
     def_delegator :window, :wipe_screen
+    def_delegator :renderer, :present
 
     def initialize(window, text)
       @window = window
@@ -23,7 +24,7 @@ module Engine::Event
 
         render_texts
 
-        renderer.present
+        present
         sleep 0.1
       end
     end
