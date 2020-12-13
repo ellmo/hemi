@@ -7,7 +7,7 @@ module Engine::Event
     attr_reader :window, :text, :event
 
     def_delegator :window, :renderer
-    def_delegator :window, :size, :winsize
+    def_delegator :window, :wipe_screen
 
     def initialize(window, text)
       @window = window
@@ -33,11 +33,6 @@ module Engine::Event
     def render_texts
       text.render(:jost, "quick brown fox jumped over the lazy dog", size: 32, position: [20, 20])
       text.render(:jost, "quick brown fox jumped over the lazy dog", size: 16, position: [20, 200])
-    end
-
-    def wipe_screen
-      renderer.draw_color = [rand(0..255), rand(0..255), 0]
-      renderer.fill_rect(SDL2::Rect.new(0, 0, winsize.width, winsize.height))
     end
 
     def poll_event
