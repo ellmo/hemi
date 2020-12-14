@@ -36,8 +36,8 @@ module Engine::Event
   private
 
     def render_texts
-      text.render(:jost, "quick brown fox jumped over the lazy dog", size: 32, position: [20, 20])
-      text.render(:jost, "quick brown fox jumped over the lazy dog", size: 16, position: [20, 200])
+      text.render(:jost_32, "quick brown fox jumped over the lazy dog", position: [20, 20])
+      text.render(:jost_16, "quick brown fox jumped over the lazy dog", position: [20, 200])
     end
 
     def poll_event

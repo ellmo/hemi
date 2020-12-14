@@ -3,6 +3,7 @@ require "sdl2"
 module Engine::Render
   class Font
     ALLOWED_MODES = %i[solid blended shaded].freeze
+    FONT_FILE_PATTERN = /([\w-]*)_([\d]*)/.freeze
 
     ERR__FONT_NOT_FOUND = "Font %s not found.".freeze
     ERR__INVALID_MODE   = "Invalid render mode specified".freeze
@@ -17,7 +18,7 @@ module Engine::Render
 
     attr_reader :font_file, :font, :size
 
-    def render(text, color: [255, 255, 255], mode: :blended, shade: [0, 0, 0])
+    def texturize(text, color: [255, 255, 255], mode: :blended, shade: [0, 0, 0])
       raise(ERR__INVALID_MODE) unless ALLOWED_MODES.include? mode
 
       case mode
@@ -31,18 +32,16 @@ module Engine::Render
     class << self
       attr_reader :fonts
 
-      def register(name, src: nil, size: 16)
-        compound_name = "#{name}_#{size}".to_sym
-        font_path     = src || "assets/fonts/#{name}.ttf"
-
-        Font[compound_name] ||
-          (Font[compound_name] = Engine::Render::Font.new(font_path, size: size))
+      def register(name, size = 16)
+        compound_name       = "#{name}_#{size}".to_sym
+        font_path           = "assets/fonts/#{name}.ttf"
+        Font[compound_name] = Engine::Render::Font.new(font_path, size: size.to_i)
       rescue SDL2::Error => _e
         raise ArgumentError, format(ERR__FONT_NOT_FOUND, font_path)
       end
 
       def [](font_name)
-        @fonts[font_name]
+        @fonts[font_name] || register(*font_name.to_s.scan(FONT_FILE_PATTERN).flatten)
       end
 
     protected

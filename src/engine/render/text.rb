@@ -2,8 +2,8 @@ require "sdl2"
 
 module Engine::Render
   class Text
-    ERR__INVALID_TEXTURE_SIZE =  "Invalid texture size.".freeze
-    ERR__INVALID_POSITION = "Ivalid position.".freeze
+    ERR__INVALID_TEXTURE_SIZE = "Invalid texture size.".freeze
+    ERR__INVALID_POSITION     = "Ivalid position.".freeze
 
     def initialize(window)
       SDL2::TTF.init
@@ -13,16 +13,12 @@ module Engine::Render
 
     attr_reader :window, :renderer, :fonts
 
-    def render(font_name, text = nil, src: nil, position: nil, size: 16, mode: :blended)
-      font          = Font.register(font_name, src: src, size: size)
-      text          = font.render(text, mode: mode)
-      font_texture  = renderer.create_texture_from(text)
+    def render(font, text = nil, position: nil, mode: :blended)
+      texture       = Font[font].texturize(text, mode: mode)
+      font_texture  = renderer.create_texture_from(texture)
       size          = calculate_size(font_texture, size)
       position      = calculate_position(position)
-
-      texture_rect  = SDL2::Rect.new(
-        position.x, position.y, size.width, size.height
-      )
+      texture_rect  = SDL2::Rect.new position.x, position.y, size.width, size.height
 
       renderer.copy(font_texture, nil, texture_rect)
     end
