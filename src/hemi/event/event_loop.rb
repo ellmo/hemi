@@ -1,6 +1,6 @@
 require "forwardable"
 
-module Engine::Event
+module Hemi::Event
   class EventLoop
     extend Forwardable
 
@@ -63,8 +63,8 @@ module Engine::Event
     end
 
     def debug!
-      binding.pry if Engine.debug # rubocop:disable Lint/Debugger
-      Engine.debug_off!
+      binding.pry if Hemi::Engine.debug # rubocop:disable Lint/Debugger
+      Hemi::Engine.debug_off!
     end
   end
 end

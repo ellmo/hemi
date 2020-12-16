@@ -1,4 +1,4 @@
-module Engine::Render
+module Hemi::Render
   class Image
     ERR__INVALID_POSITION = "Ivalid position.".freeze
 

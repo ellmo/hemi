@@ -1,7 +1,7 @@
 require "singleton"
 require "sdl2"
 
-module Engine
+module Hemi
   class Window
     include Singleton
 
