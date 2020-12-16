@@ -4,12 +4,13 @@ module Engine::Event
   class EventLoop
     extend Forwardable
 
-    def initialize(window, text)
+    def initialize(window, text, image)
       @window = window
       @text   = text
+      @image  = image
     end
 
-    attr_reader :window, :text, :event
+    attr_reader :window, :text, :image, :event
     def_delegator :window, :renderer
     def_delegator :window, :wipe_screen
     def_delegator :renderer, :present
@@ -26,6 +27,7 @@ module Engine::Event
         end
 
         render_texts
+        render_images
 
         present
         debug!
@@ -38,6 +40,11 @@ module Engine::Event
     def render_texts
       text.render(:jost_32, "quick brown fox jumped over the lazy dog", position: [20, 20])
       text.render(:jost_16, "quick brown fox jumped over the lazy dog", position: [20, 200])
+    end
+
+    def render_images
+      image.render("gem", position: { y: 220, x: 20 })
+      image.render("gem", position: { y: 320, x: 220 }, size: { height: 64, width: 128 })
     end
 
     def poll_event
