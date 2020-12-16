@@ -33,7 +33,7 @@ module Engine::Render
         size_obj.width  = size[1]
       elsif size.is_a? Hash
         size_obj.height = size[:height]
-        size_obj.width  = size[:widht]
+        size_obj.width  = size[:width]
       else
         size_obj.height = texture.h
         size_obj.width = texture.w
