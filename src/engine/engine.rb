@@ -22,12 +22,13 @@ class Engine
     load_trees
   end
 
-  attr_reader :window, :text, :debug
+  attr_reader :window, :text, :image, :debug
   def_delegator :window, :renderer
 
   def run
     init_window
     init_text
+    init_image
     start_loop
   end
 
@@ -71,7 +72,11 @@ private
     @text = Engine::Render::Text.new(window)
   end
 
+  def init_image
+    @image = Engine::Render::Image.new(window)
+  end
+
   def start_loop
-    Engine::Event::EventLoop.new(window, text).call
+    Engine::Event::EventLoop.new(window, text, image).call
   end
 end
