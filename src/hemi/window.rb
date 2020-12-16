@@ -28,9 +28,9 @@ module Hemi
       @renderer ||= @sdl_window.create_renderer(-1, 0)
     end
 
-    def wipe_screen
-      renderer.draw_color = [0, 0, 0]
-      renderer.fill_rect(SDL2::Rect.new(0, 0, size.width, size.height))
+    def self.wipe_screen
+      instance.renderer.draw_color = [0, 0, 0]
+      instance.renderer.fill_rect(SDL2::Rect.new(0, 0, instance.size.width, instance.size.height))
     end
 
     def self.renderer

@@ -4,32 +4,31 @@ module Hemi::Event
   class EventLoop
     extend Forwardable
 
-    def initialize(window, text, image)
-      @window = window
-      @text   = text
-      @image  = image
+    # @window   = Hemi::Window.instance
+    # @renderer = Hemi::Window.renderer
+
+    def initialize(text, image)
+      @text  = text
+      @image = image
     end
 
-    attr_reader :window, :text, :image, :event
-    def_delegator :window, :renderer
-    def_delegator :window, :wipe_screen
-    def_delegator :renderer, :present
+    attr_reader :text, :image, :event
 
     def call
       loop do
-        wipe_screen
+        Hemi::Window.wipe_screen
 
         while poll_event
           exit if key_is?(:escape)
           exit if key_is?(:q)
 
-          Engine.debug_on! if key_is?(:f12)
+          Hemi::Engine.debug_on! if key_is?(:f12)
         end
 
         render_texts
         render_images
 
-        present
+        Hemi::Window.renderer.present
         debug!
         sleep 0.1
       end

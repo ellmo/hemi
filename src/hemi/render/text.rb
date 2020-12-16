@@ -5,22 +5,21 @@ module Hemi::Render
     ERR__INVALID_TEXTURE_SIZE = "Invalid texture size.".freeze
     ERR__INVALID_POSITION     = "Ivalid position.".freeze
 
-    def initialize(window)
-      SDL2::TTF.init
-      @window   = window
-      @renderer = window.renderer
-    end
+    @window   = Hemi::Window.instance
+    @renderer = Hemi::Window.renderer
 
-    attr_reader :window, :renderer, :fonts
+    def initialize
+      SDL2::TTF.init
+    end
 
     def render(font, text = nil, position: nil, mode: :blended)
       texture       = Font[font].texturize(text, mode: mode)
-      font_texture  = renderer.create_texture_from(texture)
+      font_texture  = Hemi::Window.renderer.create_texture_from(texture)
       size          = calculate_size(font_texture, size)
       position      = calculate_position(position)
       texture_rect  = SDL2::Rect.new position.x, position.y, size.width, size.height
 
-      renderer.copy(font_texture, nil, texture_rect)
+      Hemi::Window.renderer.copy(font_texture, nil, texture_rect)
     end
 
   private

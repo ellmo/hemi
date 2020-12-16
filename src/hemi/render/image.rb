@@ -2,15 +2,7 @@ module Hemi::Render
   class Image
     ERR__INVALID_POSITION = "Ivalid position.".freeze
 
-    @images = {}
-    @renderer = nil
-
-    def initialize(window)
-      @window   = window
-      @renderer = window.renderer
-
-      self.class.renderer ||= renderer
-    end
+    @images   = {}
 
     def render(image, position: nil, size: nil, mode: :blended)
       texture       = Image[image]
@@ -18,17 +10,14 @@ module Hemi::Render
       position      = calculate_position(position)
       texture_rect  = SDL2::Rect.new position.x, position.y, size.width, size.height
 
-      renderer.copy(texture, nil, texture_rect)
+      Hemi::Window.renderer.copy(texture, nil, texture_rect)
     end
-
-    attr_reader :window, :renderer, :images
 
     class << self
       attr_reader :images
-      attr_accessor :renderer
 
       def register(image_name)
-        Image[image_name] = renderer.load_texture "assets/img/#{image_name}.bmp"
+        Image[image_name] = Hemi::Window.renderer.load_texture "assets/img/#{image_name}.bmp"
       rescue SDL2::Error => _e
         raise ArgumentError, format(ERR__FONT_NOT_FOUND, font_path)
       end
@@ -36,10 +25,6 @@ module Hemi::Render
       def [](image_name)
         @images[image_name] || register(image_name)
       end
-
-      # def renderer=(val)
-      #   @renderer = val
-      # end
 
     protected
 

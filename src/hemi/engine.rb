@@ -2,13 +2,12 @@ require "singleton"
 require "forwardable"
 require "sdl2"
 
-require_relative "window"
 require_relative "loader"
+require_relative "window"
 
 module Hemi
   class Engine
     include Singleton
-    include Loader
 
     @debug = false
 
@@ -45,9 +44,9 @@ module Hemi
     end
 
     def load_trees
-      load_tree "render"
-      load_tree "input"
-      load_tree "event"
+      Loader.load_tree "render"
+      Loader.load_tree "input"
+      Loader.load_tree "event"
     end
 
     def init_window
@@ -55,15 +54,15 @@ module Hemi
     end
 
     def init_text
-      @text = Hemi::Render::Text.new(window)
+      @text = Hemi::Render::Text.new
     end
 
     def init_image
-      @image = Hemi::Render::Image.new(window)
+      @image = Hemi::Render::Image.new
     end
 
     def start_loop
-      Hemi::Event::EventLoop.new(window, text, image).call
+      Hemi::Event::EventLoop.new(text, image).call
     end
   end
 end
