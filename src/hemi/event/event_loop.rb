@@ -3,6 +3,7 @@ require "forwardable"
 module Hemi::Event
   class EventLoop
     extend Forwardable
+    Sprite = Hemi::Render::Sprite
 
     def initialize(text, image)
       @text  = text
@@ -23,7 +24,7 @@ module Hemi::Event
         end
 
         render_texts
-        render_images
+        render_sprites
 
         Hemi::Window.renderer.present
         debug!
@@ -38,9 +39,11 @@ module Hemi::Event
       text.render(:jost_16, "quick brown fox jumped over the lazy dog", position: [20, 200])
     end
 
-    def render_images
+    def render_sprites
       image.render("gem", position: { y: 220, x: 20 })
-      image.render("gem", position: { y: 320, x: 220 }, size: { height: 64, width: 128 })
+      s_gem = Sprite.new(:gem)
+      s_gem.render(position: { y: 220, x: 20 })
+      Sprite[:gem].render(position: { y: 320, x: 220 }, size: { height: 64, width: 128 })
     end
 
     def poll_event
