@@ -17,19 +17,17 @@ module Hemi::Render
       attr_reader :images
 
       def register(image_name)
-        Image[image_name] = Hemi::Window.renderer.load_texture "assets/img/#{image_name}.bmp"
+        @images[image_name] = Hemi::Window.renderer.load_texture "assets/img/#{image_name}.bmp"
       rescue SDL2::Error => _e
         raise ArgumentError, format(ERR__FONT_NOT_FOUND, font_path)
       end
 
       def [](image_name)
-        @images[image_name] || register(image_name)
+        @images[image_name] || Image.register(image_name)
       end
 
-    protected
-
-      def []=(image_name, font)
-        @images[image_name] = font
+      def purge!
+        @images = {}
       end
     end
 
