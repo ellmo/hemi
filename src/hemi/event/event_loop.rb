@@ -4,9 +4,6 @@ module Hemi::Event
   class EventLoop
     extend Forwardable
 
-    # @window   = Hemi::Window.instance
-    # @renderer = Hemi::Window.renderer
-
     def initialize(text, image)
       @text  = text
       @image = image

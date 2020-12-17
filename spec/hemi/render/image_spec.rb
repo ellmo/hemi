@@ -22,7 +22,7 @@ describe Hemi::Render::Image do
       context "image already loaded" do
         before { described_class.register image_name }
 
-        it "does NOT registers new image" do
+        it "does NOT register new image" do
           stub_const(described_class.to_s, image_spy)
           subject
           expect(image_spy).not_to have_received(:register)

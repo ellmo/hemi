@@ -11,8 +11,16 @@ module Hemi
 
     def initialize(width = DEFAULT_WINDOW_WIDTH, height = DEFAULT_WINDOW_HEIGHT)
       @size = Size.new(width: width, height: height)
+    end
 
-      @sdl_window = SDL2::Window.create(
+    attr_reader :size
+
+    def renderer
+      @renderer ||= sdl_window.create_renderer(-1, 0)
+    end
+
+    def sdl_window
+      @sdl_window ||= SDL2::Window.create(
         "title",
         SDL2::Window::POS_CENTERED,
         SDL2::Window::POS_CENTERED,
@@ -20,12 +28,6 @@ module Hemi
         size.height,
         0
       )
-    end
-
-    attr_reader :size
-
-    def renderer
-      @renderer ||= @sdl_window.create_renderer(-1, 0)
     end
 
     def self.wipe_screen

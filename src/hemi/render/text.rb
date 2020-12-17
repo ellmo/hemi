@@ -1,12 +1,7 @@
-require "sdl2"
-
 module Hemi::Render
   class Text
     ERR__INVALID_TEXTURE_SIZE = "Invalid texture size.".freeze
     ERR__INVALID_POSITION     = "Ivalid position.".freeze
-
-    @window   = Hemi::Window.instance
-    @renderer = Hemi::Window.renderer
 
     def initialize
       SDL2::TTF.init
