@@ -14,7 +14,7 @@ module Hemi::Render
 
     class << self
       def register(name, texture)
-        public_send(bucket)[name] = texture
+        public_send(bucket)[name] ||= texture
       end
 
       def [](name)

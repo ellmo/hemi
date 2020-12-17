@@ -6,7 +6,7 @@ module Hemi::Render
 
     def initialize(name)
       @texture = Hemi::Window.renderer.load_texture("assets/img/#{name}.bmp")
-      self.class.register(name, self)
+      Sprite.register(name, self)
     rescue SDL2::Error => _e
       raise ArgumentError, format(ERR__FONT_NOT_FOUND, font_path)
     end

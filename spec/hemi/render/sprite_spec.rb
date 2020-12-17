@@ -1,33 +1,42 @@
 describe Hemi::Render::Sprite do
-  describe "class methods" do
-    let(:image_spy) { class_spy(described_class) }
+  shared_examples "sprite initialization and registration" do
+    before { described_class.purge! }
 
-    describe "[]" do
-      subject { described_class[image_name] }
-
-      let(:image_name) { :gem }
-
-      before { described_class.purge! }
-
-      it { is_expected.to be_a SDL2::Texture }
-
-      context "image NOT yet loaded" do
-        it "calls .register" do
-          stub_const(described_class.to_s, image_spy)
-          subject
-          expect(image_spy).to have_received(:register)
-        end
-      end
-
-      context "image already loaded" do
-        before { described_class.register image_name }
-
-        it "does NOT register new image" do
-          stub_const(described_class.to_s, image_spy)
-          subject
-          expect(image_spy).not_to have_received(:register)
-        end
+    context "sprite NOT yet loaded" do
+      it "registers new sprite" do
+        expect { subject }
+          .to change(described_class.sprites, :count)
+          .by(1)
       end
     end
+
+    context "sprite already loaded" do
+      before { described_class.new sprite_name }
+
+      it "does NOT register new sprite" do
+        expect { subject }
+          .not_to change(described_class.sprites, :count)
+      end
+    end
+  end
+
+  describe "class methods" do
+    describe "[]" do
+      subject { described_class[sprite_name] }
+
+      let(:sprite_name) { :gem }
+
+      it { is_expected.to be_a described_class }
+
+      include_examples "sprite initialization and registration"
+    end
+  end
+
+  describe "#new" do
+    subject { described_class.new(sprite_name) }
+
+    let(:sprite_name) { :gem }
+
+    include_examples "sprite initialization and registration"
   end
 end
