@@ -7,7 +7,6 @@ module Hemi
 
     DEFAULT_WINDOW_WIDTH  = 640
     DEFAULT_WINDOW_HEIGHT = 480
-    Size = Struct.new(:width, :height, keyword_init: true)
 
     def initialize(width = DEFAULT_WINDOW_WIDTH, height = DEFAULT_WINDOW_HEIGHT)
       @size = Size.new(width: width, height: height)
@@ -24,15 +23,14 @@ module Hemi
         "title",
         SDL2::Window::POS_CENTERED,
         SDL2::Window::POS_CENTERED,
-        size.width,
-        size.height,
+        *size,
         0
       )
     end
 
     def self.wipe_screen
       instance.renderer.draw_color = [0, 0, 0]
-      instance.renderer.fill_rect(SDL2::Rect.new(0, 0, instance.size.width, instance.size.height))
+      instance.renderer.fill_rect(SDL2::Rect.new(0, 0, *instance.size))
     end
 
     def self.renderer

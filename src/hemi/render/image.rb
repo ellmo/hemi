@@ -34,7 +34,7 @@ module Hemi::Render
   private
 
     def calculate_size(texture, size = nil)
-      size_obj = OpenStruct.new(height: nil, width: nil)
+      size_obj = Size.new(height: nil, width: nil)
 
       if size.is_a? Array
         size_obj.height = size[0]
@@ -51,7 +51,7 @@ module Hemi::Render
     end
 
     def calculate_position(position = nil)
-      position_obj = OpenStruct.new(x: nil, y: nil)
+      position_obj = Position.new(x: nil, y: nil)
 
       if position.nil?
         position_obj.x = 0

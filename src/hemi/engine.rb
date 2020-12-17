@@ -2,6 +2,7 @@ require "singleton"
 require "forwardable"
 require "sdl2"
 
+require_relative "../helpers"
 require_relative "loader"
 require_relative "window"
 
