@@ -1,6 +1,6 @@
 require "sdl2"
 
-module Engine::Render
+module Hemi::Render
   class Font
     ALLOWED_MODES = %i[solid blended shaded].freeze
     FONT_FILE_PATTERN = /([\w-]*)_([\d]*)/.freeze
@@ -35,7 +35,7 @@ module Engine::Render
       def register(name, size = 16)
         compound_name       = "#{name}_#{size}".to_sym
         font_path           = "assets/fonts/#{name}.ttf"
-        Font[compound_name] = Engine::Render::Font.new(font_path, size: size.to_i)
+        Font[compound_name] = Hemi::Render::Font.new(font_path, size: size.to_i)
       rescue SDL2::Error => _e
         raise ArgumentError, format(ERR__FONT_NOT_FOUND, font_path)
       end
