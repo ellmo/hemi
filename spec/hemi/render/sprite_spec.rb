@@ -1,4 +1,4 @@
-describe Hemi::Render::Image do
+describe Hemi::Render::Sprite do
   describe "class methods" do
     let(:image_spy) { class_spy(described_class) }
 

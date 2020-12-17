@@ -1,11 +1,11 @@
 module Hemi::Render
-  class Image
+  class Sprite
     ERR__INVALID_POSITION = "Ivalid position.".freeze
 
     @images   = {}
 
     def render(image, position: nil, size: nil, mode: :blended)
-      texture       = Image[image]
+      texture       = Sprite[image]
       size          = calculate_size(texture, size)
       position      = calculate_position(position)
       texture_rect  = SDL2::Rect.new position.x, position.y, size.width, size.height
@@ -23,7 +23,7 @@ module Hemi::Render
       end
 
       def [](image_name)
-        @images[image_name] || Image.register(image_name)
+        @images[image_name] || Sprite.register(image_name)
       end
 
       def purge!

@@ -59,7 +59,7 @@ module Hemi
     end
 
     def init_image
-      @image = Hemi::Render::Image.new
+      @image = Hemi::Render::Sprite.new
     end
 
     def start_loop
