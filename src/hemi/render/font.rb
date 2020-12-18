@@ -1,5 +1,5 @@
 module Hemi::Render
-  class Text < Texture
+  class Font < Texture
     SDL2::TTF.init
 
     ALLOWED_MODES = %i[solid blended shaded].freeze
@@ -16,7 +16,7 @@ module Hemi::Render
       @font_path = "assets/fonts/#{name}.ttf"
       @font      = SDL2::TTF.open(font_path, size.to_i)
 
-      Text.register(name_size, self)
+      Font.register(name_size, self)
     rescue SDL2::Error => _e
       raise ArgumentError, format(ERR__FONT_NOT_FOUND, font_path)
     end

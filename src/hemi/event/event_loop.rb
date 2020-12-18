@@ -3,8 +3,8 @@ require "forwardable"
 module Hemi::Event
   class EventLoop
     extend Forwardable
+    Font   = Hemi::Render::Font
     Sprite = Hemi::Render::Sprite
-    Text   = Hemi::Render::Text
 
     def initialize(text, image)
       @text  = text
@@ -36,8 +36,8 @@ module Hemi::Event
   private
 
     def render_texts
-      Text[:jost_32].render("quick brown fox jumped over the lazy dog", position: [20, 20])
-      Text[:jost_16].render("quick brown fox jumped over the lazy dog", position: [20, 200])
+      Font[:jost_32].render("quick brown fox jumped over the lazy dog", position: [20, 20])
+      Font[:jost_16].render("quick brown fox jumped over the lazy dog", position: [20, 200])
     end
 
     def render_sprites
