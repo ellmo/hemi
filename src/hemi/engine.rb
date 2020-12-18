@@ -2,6 +2,7 @@ require "singleton"
 require "forwardable"
 require "sdl2"
 
+require_relative "../helpers"
 require_relative "loader"
 require_relative "window"
 
@@ -20,8 +21,6 @@ module Hemi
 
     def run
       init_window
-      init_text
-      init_image
       start_loop
     end
 
@@ -51,14 +50,6 @@ module Hemi
 
     def init_window
       @window = Hemi::Window.instance
-    end
-
-    def init_text
-      @text = Hemi::Render::Text.new
-    end
-
-    def init_image
-      @image = Hemi::Render::Image.new
     end
 
     def start_loop

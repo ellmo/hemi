@@ -1,4 +1,5 @@
 require "pry"
+require "./src/helpers"
 require "./src/hemi/window"
 require "./src/hemi/loader"
 
