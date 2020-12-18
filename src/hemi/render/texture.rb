@@ -32,6 +32,10 @@ module Hemi::Render
 
   private
 
+    def rectangle(size: nil, position: nil)
+      SDL2::Rect.new(*calculate_position(position), *calculate_size(size))
+    end
+
     def calculate_size(size = nil)
       size_obj = Size.new(height: nil, width: nil)
 
