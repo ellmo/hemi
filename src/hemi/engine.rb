@@ -21,7 +21,6 @@ module Hemi
 
     def run
       init_window
-      init_text
       start_loop
     end
 
@@ -51,10 +50,6 @@ module Hemi
 
     def init_window
       @window = Hemi::Window.instance
-    end
-
-    def init_text
-      @text = Hemi::Render::Text.new
     end
 
     def start_loop
