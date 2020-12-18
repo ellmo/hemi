@@ -1,6 +1,6 @@
 module Hemi::Render
   class Sprite < Texture
-    ERR__INVALID_POSITION = "Ivalid position.".freeze
+    ERR__IMAGE_NOT_FOUND = "Image %s not found.".freeze
 
     @sprites = {}
 
@@ -8,7 +8,7 @@ module Hemi::Render
       @texture = Hemi::Window.renderer.load_texture("assets/img/#{name}.bmp")
       Sprite.register(name, self)
     rescue SDL2::Error => _e
-      raise ArgumentError, format(ERR__FONT_NOT_FOUND, font_path)
+      raise ArgumentError, format(ERR__IMAGE_NOT_FOUND, font_path)
     end
 
     def render(position: nil, size: nil)
