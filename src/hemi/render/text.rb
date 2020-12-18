@@ -27,11 +27,7 @@ module Hemi::Render
       @texture = Hemi::Window
                  .renderer
                  .create_texture_from(surface(text, mode: mode))
-      size         = calculate_size(size)
-      position     = calculate_position(position)
-      texture_rect = SDL2::Rect.new position.x, position.y, size.width, size.height
-
-      Hemi::Window.renderer.copy(texture, nil, texture_rect)
+      Hemi::Window.renderer.copy(texture, nil, rectangle(position: position))
     end
 
     class << self

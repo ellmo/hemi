@@ -12,11 +12,7 @@ module Hemi::Render
     end
 
     def render(position: nil, size: nil)
-      size         = calculate_size(size)
-      position     = calculate_position(position)
-      texture_rect = SDL2::Rect.new(*position, *size)
-
-      Hemi::Window.renderer.copy(texture, nil, texture_rect)
+      Hemi::Window.renderer.copy(texture, nil, rectangle(position: position, size: size))
     end
 
     class << self
