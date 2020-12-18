@@ -20,7 +20,7 @@ module Hemi
 
     def sdl_window
       @sdl_window ||= SDL2::Window.create(
-        "title",
+        "Hemi",
         SDL2::Window::POS_CENTERED,
         SDL2::Window::POS_CENTERED,
         *size,
