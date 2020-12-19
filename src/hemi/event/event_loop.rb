@@ -3,29 +3,22 @@ require "forwardable"
 module Hemi::Event
   class EventLoop
     extend Forwardable
-    Font   = Hemi::Render::Font
-    Sprite = Hemi::Render::Sprite
 
-    def initialize(text, image)
-      @text  = text
-      @image = image
-    end
+    attr_reader :event
 
-    attr_reader :text, :image, :event
+    def call(event_table)
+      @event_table = event_table
 
-    def call
       loop do
         Hemi::Window.wipe_screen
 
         while poll_event
-          exit if key_is?(:escape)
-          exit if key_is?(:q)
+          handle_events
 
           Hemi::Engine.debug_on! if key_is?(:f12)
         end
 
-        render_texts
-        render_sprites
+        yield if block_given?
 
         Hemi::Window.renderer.present
         debug!
@@ -35,14 +28,12 @@ module Hemi::Event
 
   private
 
-    def render_texts
-      Font[:jost_32].render("quick brown fox jumped over the lazy dog", position: [20, 20])
-      Font[:jost_16].render("quick brown fox jumped over the lazy dog", position: [20, 200])
-    end
+    def handle_events
+      return unless event_key?
 
-    def render_sprites
-      Sprite[:gem].render(position: { y: 220, x: 20 })
-      Sprite[:gem].render(position: { y: 320, x: 220 }, size: { height: 64, width: 128 })
+      @event_table[:keys].each_pair do |key, action|
+        action.call if key_is?(key)
+      end
     end
 
     def poll_event
