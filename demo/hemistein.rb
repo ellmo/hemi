@@ -6,14 +6,6 @@ class Hemistein
   Font   = Hemi::Render::Font
   Sprite = Hemi::Render::Sprite
 
-  def initialize
-    puts "Hemistein init"
-  end
-
-  def run
-    puts "Hemistein"
-  end
-
   def loob_block
     proc {
       Font[:jost_32].render("quick brown fox jumped over the lazy dog", position: [20, 20])

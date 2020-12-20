@@ -40,7 +40,7 @@ module Hemi
     end
 
     def run
-      super
+      super if defined?(super)
       init_window
       start_loop
     end
