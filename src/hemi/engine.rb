@@ -9,7 +9,6 @@ module Hemi
 
     def initialize
       sdl_init
-      load_trees
       super
     end
 
@@ -19,18 +18,16 @@ module Hemi
       SDL2.init(SDL2::INIT_EVERYTHING)
     end
 
-    def load_trees
-      Loader.load_tree "helpers"
-      Loader.load_tree "render"
-      Loader.load_tree "input"
-      Loader.load_tree "event"
-    end
-
     class << self
       attr_reader :debug
 
       def prepended(klass)
         klass.include Singleton
+
+        Loader.load_tree "helpers"
+        Loader.load_tree "render"
+        Loader.load_tree "input"
+        Loader.load_tree "event"
       end
 
       def debug_on!
