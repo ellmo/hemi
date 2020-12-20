@@ -2,7 +2,6 @@ require "singleton"
 require "sdl2"
 
 require_relative "loader"
-require_relative "window"
 
 module Hemi
   module Engine
@@ -52,7 +51,7 @@ module Hemi
   private
 
     def init_window
-      @window = Hemi::Window.instance
+      @window = Hemi::Render::Window.instance
     end
 
     def start_loop

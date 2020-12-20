@@ -10,7 +10,7 @@ module Hemi::Event
       @event_table = event_table
 
       loop do
-        Hemi::Window.wipe_screen
+        Hemi::Render::Window.wipe_screen
 
         while poll_event
           handle_events
@@ -20,7 +20,7 @@ module Hemi::Event
 
         yield if block_given?
 
-        Hemi::Window.renderer.present
+        Hemi::Render::Window.renderer.present
         debug!
         sleep 0.1
       end

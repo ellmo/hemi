@@ -1,7 +1,4 @@
-require "singleton"
-require "sdl2"
-
-module Hemi
+module Hemi::Render
   class Window
     include Singleton
 

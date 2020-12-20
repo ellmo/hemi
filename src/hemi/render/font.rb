@@ -24,10 +24,10 @@ module Hemi::Render
     attr_reader :font_path, :size, :font
 
     def render(text, position: nil, mode: :blended)
-      @texture = Hemi::Window
+      @texture = Hemi::Render::Window
                  .renderer
                  .create_texture_from(surface(text, mode: mode))
-      Hemi::Window.renderer.copy(texture, nil, rectangle(position: position))
+      Hemi::Render::Window.renderer.copy(texture, nil, rectangle(position: position))
     end
 
     class << self
