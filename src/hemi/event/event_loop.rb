@@ -1,9 +1,5 @@
-require "forwardable"
-
 module Hemi::Event
   class EventLoop
-    extend Forwardable
-
     attr_reader :event
 
     def call(event_table)
