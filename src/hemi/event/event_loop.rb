@@ -1,68 +1,52 @@
-require "forwardable"
-
 module Hemi::Event
   class EventLoop
-    extend Forwardable
-    Sprite = Hemi::Render::Sprite
-    Text   = Hemi::Render::Text
 
-    def initialize(text, image)
-      @text  = text
-      @image = image
+    def initialize(logic, events)
+      @logic  = logic
+      @events = events.each_with_object({}) do |(key, action), hsh|
+        hsh[SDL2::Key::Scan.const_get(key.upcase)] = action
+      end
     end
 
-    attr_reader :text, :image, :event
+    attr_reader :logic, :events, :event
 
-    def call
-      loop do
-        Hemi::Window.wipe_screen
+    def handle(event)
+      @event = event
 
-        while poll_event
-          exit if key_is?(:escape)
-          exit if key_is?(:q)
-
-          Hemi::Engine.debug_on! if key_is?(:f12)
-        end
-
-        render_texts
-        render_sprites
-
-        Hemi::Window.renderer.present
-        debug!
-        sleep 0.1
+      case event
+      when SDL2::Event::KeyDown
+        handle_key
       end
+
+      @event = nil
+    end
+
+    def process
+      logic.call
     end
 
   private
 
-    def render_texts
-      Text[:jost_32].render("quick brown fox jumped over the lazy dog", position: [20, 20])
-      Text[:jost_16].render("quick brown fox jumped over the lazy dog", position: [20, 200])
+    def handle_key
+      if (action = events[event.scancode]).is_a? Symbol
+        instance_eval action.to_s
+      else
+        action.call
+      end
     end
 
-    def render_sprites
-      Sprite[:gem].render(position: { y: 220, x: 20 })
-      Sprite[:gem].render(position: { y: 320, x: 220 }, size: { height: 64, width: 128 })
+    def key_event?
+      event.is_a?
     end
 
-    def poll_event
-      @event = SDL2::Event.poll
-    end
+    def key_down
+      return unless key_event?
 
-    def event_key?
-      event.is_a? SDL2::Event::KeyDown
-    end
-
-    def key_is?(keycode)
-      return nil unless event_key?
-
-      keycode = keycode.to_s.upcase
-      event.scancode == SDL2::Key::Scan.const_get(keycode)
+      SDL2::Key::Scan.const_get(event.scancode).downcase
     end
 
     def debug!
-      binding.pry if Hemi::Engine.debug # rubocop:disable Lint/Debugger
-      Hemi::Engine.debug_off!
+      Hemi::Engine.debug_on!
     end
   end
 end

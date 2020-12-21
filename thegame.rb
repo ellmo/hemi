@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
 require "pry"
-require "./src/hemi/engine"
+require "./demo/hemistein"
 
-Hemi::Engine.instance.run
+Hemistein.instance.run

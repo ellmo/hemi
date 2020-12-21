@@ -1,31 +1,34 @@
 require "singleton"
-require "forwardable"
 require "sdl2"
 
-require_relative "../helpers"
 require_relative "loader"
-require_relative "window"
 
 module Hemi
-  class Engine
-    include Singleton
-
+  module Engine
     @debug = false
 
     def initialize
       sdl_init
-      load_trees
+      super
     end
 
-    attr_reader :window, :text, :image, :debug
+    attr_reader :window
 
-    def run
-      init_window
-      start_loop
+    def sdl_init
+      SDL2.init(SDL2::INIT_EVERYTHING)
     end
 
     class << self
       attr_reader :debug
+
+      def prepended(klass)
+        klass.include Singleton
+
+        Loader.load_tree "helpers"
+        Loader.load_tree "render"
+        Loader.load_tree "input"
+        Loader.load_tree "event"
+      end
 
       def debug_on!
         @debug = true
@@ -36,24 +39,20 @@ module Hemi
       end
     end
 
+    def run
+      super if defined?(super)
+      init_window
+      start_loop
+    end
+
   private
 
-    def sdl_init
-      SDL2.init(SDL2::INIT_EVERYTHING)
-    end
-
-    def load_trees
-      Loader.load_tree "render"
-      Loader.load_tree "input"
-      Loader.load_tree "event"
-    end
-
     def init_window
-      @window = Hemi::Window.instance
+      @window = Hemi::Render::Window.instance
     end
 
     def start_loop
-      Hemi::Event::EventLoop.new(text, image).call
+      Hemi::Event::LoopMachine.instance.call
     end
   end
 end
