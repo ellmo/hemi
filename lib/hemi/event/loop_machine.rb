@@ -38,6 +38,11 @@ module Hemi::Event
       def switch(name)
         @current = LoopMachine[name]
       end
+
+      def purge!
+        @loops   = {}
+        @current = nil
+      end
     end
 
   private
