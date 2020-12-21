@@ -17,6 +17,8 @@ module Hemi::Event
         Hemi::Render::Window.renderer.present
 
         debug?
+        break if Hemi::Engine.stop
+
         sleep 0.1
       end
     end
