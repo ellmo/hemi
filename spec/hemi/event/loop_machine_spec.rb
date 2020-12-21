@@ -54,4 +54,27 @@ describe Hemi::Event::LoopMachine do
       end
     end
   end
+
+  describe "#call" do
+    describe "processing logic" do
+      subject  { described_class.instance.call }
+
+      let(:dummy) { double("dummy", asd: "qwe") }
+      let(:logic) do
+        proc {
+          dummy.asd
+          Hemi::Engine.stop!
+        }
+      end
+
+      before do
+        described_class.register(:main, logic)
+      end
+
+      it "processes dummy" do
+        subject
+        expect(dummy).to have_received(:asd).exactly(:once)
+      end
+    end
+  end
 end
