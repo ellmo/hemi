@@ -28,9 +28,10 @@ module Hemi::Event
   private
 
     def handle_key
-      if (action = events[event.scancode]).is_a? Symbol
+      case action = events[event.scancode]
+      when Symbol
         instance_eval action.to_s
-      else
+      when Proc
         action.call
       end
     end
@@ -47,6 +48,10 @@ module Hemi::Event
 
     def debug!
       Hemi::Engine.debug_on!
+    end
+
+    def stop!
+      Hemi::Engine.stop!
     end
   end
 end

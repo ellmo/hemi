@@ -6,6 +6,7 @@ require_relative "loader"
 module Hemi
   module Engine
     @debug = false
+    @stop  = false
 
     def initialize
       sdl_init
@@ -19,7 +20,7 @@ module Hemi
     end
 
     class << self
-      attr_reader :debug
+      attr_reader :debug, :stop
 
       def prepended(klass)
         klass.include Singleton
@@ -36,6 +37,10 @@ module Hemi
 
       def debug_off!
         @debug = false
+      end
+
+      def stop!
+        @stop = true
       end
     end
 
