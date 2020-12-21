@@ -3,8 +3,13 @@ require_relative "../src/hemi/engine"
 class Hemistein
   prepend Hemi::Engine
 
+  LM     = Hemi::Event::LoopMachine
   Font   = Hemi::Render::Font
   Sprite = Hemi::Render::Sprite
+
+  def run
+    LM.register(:main, loob_block, event_table)
+  end
 
   def loob_block
     proc {

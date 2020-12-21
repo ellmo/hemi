@@ -52,7 +52,8 @@ module Hemi
     end
 
     def start_loop
-      Hemi::Event::EventLoop.new.call(event_table, &loob_block)
+      Hemi::Event::LoopMachine.instance.call
+      # Hemi::Event::EventLoop.new.call(event_table, &loob_block)
     end
   end
 end
