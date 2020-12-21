@@ -4,4 +4,5 @@
 .yardoc/
 
 vendor/bundle/
+examples/
 
