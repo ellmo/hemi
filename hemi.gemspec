@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
   spec.name     = "hemi"
   spec.version  = Hemi::VERSION.dup
   spec.date     = "2020-12-21"
-  spec.summary  = ""
+  spec.summary  = "A simplistic game engine based on SDL2. Because I can."
   spec.authors  = ["Jakub Żuchowski"]
   spec.email    = "ellmo@ellmo.net"
   spec.homepage = "https://github.com/ellmo/hemi"
