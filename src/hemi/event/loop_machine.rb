@@ -11,10 +11,7 @@ module Hemi::Event
       loop do
         Hemi::Render::Window.wipe_screen
 
-        while poll_event
-          handle_events
-        end
-
+        handle_events while poll_event
         process_logic
 
         Hemi::Render::Window.renderer.present
