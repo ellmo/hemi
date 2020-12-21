@@ -23,8 +23,8 @@ Gem::Specification.new do |spec|
 
   spec.required_ruby_version = ">= 2.6.0"
 
-  spec.add_dependency "ruby-sdl2", "0.3.5"
   spec.add_dependency "pry", "~> 0.12"
+  spec.add_dependency "ruby-sdl2", "0.3.5"
 
   spec.add_development_dependency "rspec", "~> 3.9"
   spec.add_development_dependency "rubocop", "~> 0.77"

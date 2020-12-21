@@ -1,5 +1,4 @@
-require "pry"
-require_relative "../src/hemi/engine"
+require "hemi"
 
 class TestSuite
   prepend Hemi::Engine
