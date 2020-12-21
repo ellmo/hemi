@@ -1,4 +1,5 @@
-require_relative "../src/hemi/engine"
+# require "hemi"
+# require_relative "../src/hemi/engine"
 
 class Hemistein
   prepend Hemi::Engine

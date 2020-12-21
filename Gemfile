@@ -1,17 +1,18 @@
-ruby File.read(File.expand_path(".ruby-version", __dir__)).chomp
 source "https://rubygems.org"
 
-# CORE
-gem "ruby-sdl2"
+gemspec
 
-# SPECS & DEBUGGING
-gem "pry"
-gem "rspec"
+# # CORE
+# gem "ruby-sdl2"
 
-# CODE QUALITY
-gem "rubocop"
-gem "rubocop-performance"
-gem "rubocop-rspec"
+# # SPECS & DEBUGGING
+# gem "pry"
+# gem "rspec"
 
-# DOCUMENTATION
-# gem "yard"
+# # CODE QUALITY
+# gem "rubocop"
+# gem "rubocop-performance"
+# gem "rubocop-rspec"
+
+# # DOCUMENTATION
+# # gem "yard"
