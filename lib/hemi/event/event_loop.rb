@@ -49,5 +49,9 @@ module Hemi::Event
     def debug!
       Hemi::Engine.debug_on!
     end
+
+    def stop!
+      Hemi::Engine.stop!
+    end
   end
 end

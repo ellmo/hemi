@@ -33,18 +33,18 @@ class LoopMachineDemo
 
   def text_events
     {
-      escape: -> { exit },
-      q: -> { exit },
       space: -> { LM.switch(:image) },
+      escape: :stop!,
+      q: :stop!,
       f12: :debug!
     }
   end
 
   def sprite_events
     {
-      escape: -> { exit },
-      q: -> { exit },
       space: -> { LM.switch(:text) },
+      escape: :stop!,
+      q: :stop!,
       f12: :debug!
     }
   end
