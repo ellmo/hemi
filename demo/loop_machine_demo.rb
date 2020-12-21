@@ -1,6 +1,6 @@
-require_relative "../src/hemi/engine"
+require "hemi"
 
-class Hemistein
+class LoopMachineDemo
   prepend Hemi::Engine
 
   LM     = Hemi::Event::LoopMachine
@@ -46,3 +46,5 @@ class Hemistein
     }
   end
 end
+
+LoopMachineDemo.instance.run

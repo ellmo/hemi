@@ -1,6 +1,8 @@
+*.gem
 .DS_store
 .bundle/
 .yardoc/
 
 vendor/bundle/
+examples/
 

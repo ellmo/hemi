@@ -1,3 +1,9 @@
+PATH
+  remote: .
+  specs:
+    hemi (0.0.1)
+      ruby-sdl2 (= 0.3.5)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -45,15 +51,12 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  pry
-  rspec
-  rubocop
-  rubocop-performance
-  rubocop-rspec
-  ruby-sdl2
-
-RUBY VERSION
-   ruby 2.6.6p146
+  hemi!
+  pry (~> 0.12)
+  rspec (~> 3.9)
+  rubocop (~> 0.77)
+  rubocop-performance (~> 1.5)
+  rubocop-rspec (~> 1.37)
 
 BUNDLED WITH
    2.1.4
