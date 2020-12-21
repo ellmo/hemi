@@ -15,7 +15,8 @@ module Hemi::Event
         process_logic
 
         Hemi::Render::Window.renderer.present
-        debug!
+
+        debug?
         sleep 0.1
       end
     end
@@ -59,7 +60,7 @@ module Hemi::Event
       @event = SDL2::Event.poll
     end
 
-    def debug!
+    def debug?
       binding.pry if Hemi::Engine.debug # rubocop:disable Lint/Debugger
       Hemi::Engine.debug_off!
     end
