@@ -26,7 +26,7 @@ module Hemi::Event
     class << self
       attr_reader :loops, :current
 
-      def register(name, logic, events)
+      def register(name, logic = -> {}, events = {})
         event_loop   = EventLoop.new(logic, events)
         @current     = event_loop if loops.empty?
         @loops[name] = event_loop

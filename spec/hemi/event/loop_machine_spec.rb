@@ -33,7 +33,7 @@ describe Hemi::Event::LoopMachine do
     subject { described_class.register(*args) }
 
     context "no other Loops present" do
-      let(:args) { [:main, {}, {}] }
+      let(:args) { [:main] }
 
       it "registers a new Loop" do
         expect { subject }
