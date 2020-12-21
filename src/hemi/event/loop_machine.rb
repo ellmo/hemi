@@ -12,12 +12,10 @@ module Hemi::Event
         Hemi::Render::Window.wipe_screen
 
         while poll_event
-          handle_events LoopMachine.current[:events]
-
-          Hemi::Engine.debug_on! if key_is?(:f12)
+          handle_events
         end
 
-        LoopMachine.current[:logic].call
+        process_logic
 
         Hemi::Render::Window.renderer.present
         debug!
@@ -29,11 +27,11 @@ module Hemi::Event
       attr_reader :loops, :current
 
       def register(name, logic, events)
-        looper       = { logic: logic, events: events }
-        @current     = looper if loops.empty?
-        @loops[name] = looper
+        event_loop   = EventLoop.new(logic, events)
+        @current     = event_loop if loops.empty?
+        @loops[name] = event_loop
 
-        looper
+        event_loop
       end
 
       def [](name)
@@ -47,27 +45,16 @@ module Hemi::Event
 
   private
 
-    def handle_events(events)
-      return unless event_key?
+    def handle_events
+      LoopMachine.current.handle event
+    end
 
-      events[:keys].each_pair do |key, action|
-        action.call if key_is?(key)
-      end
+    def process_logic
+      LoopMachine.current.process
     end
 
     def poll_event
       @event = SDL2::Event.poll
-    end
-
-    def event_key?
-      event.is_a? SDL2::Event::KeyDown
-    end
-
-    def key_is?(keycode)
-      return nil unless event_key?
-
-      keycode = keycode.to_s.upcase
-      event.scancode == SDL2::Key::Scan.const_get(keycode)
     end
 
     def debug!
