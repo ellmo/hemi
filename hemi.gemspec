@@ -16,7 +16,7 @@ Gem::Specification.new do |spec|
   spec.email    = "ellmo@ellmo.net"
   spec.homepage = "https://github.com/ellmo/hemi"
   spec.license  = "MIT"
-  # Fetch all git-versioned files, excluding all the default test locations.
+  # Fetch all git-versioned files, excluding all vendor, test, demo and example locations.
   spec.files    = `git ls-files -z`.split("\x0").reject do |f|
     f.match(%r{^(.bundle|demo|examples|spec|features|vendor|assets)/})
   end
