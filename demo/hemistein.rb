@@ -23,10 +23,9 @@ class Hemistein
 
   def event_table
     {
-      keys: {
-        escape: -> { exit },
-        q: -> { exit }
-      }
+      escape: -> { exit },
+      q: -> { exit },
+      f12: :debug!
     }
   end
 end
