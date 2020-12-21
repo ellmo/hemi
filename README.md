@@ -30,7 +30,7 @@ And `bundle install` away.
 
 Dont forget to `git tag` and push with `--tags option`
 
-#### 3. Build and ush to Rubygems
+#### 3. Build and push to Rubygems
 
 `gem build hemi.gemspec`
 
