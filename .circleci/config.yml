@@ -1,0 +1,53 @@
+version: 2.1
+orbs:
+  ruby: circleci/ruby@0.1.2
+
+defaults: &defaults
+  working_directory: ~/hemi
+
+ruby_machine: &ruby_machine
+  <<: *defaults
+  docker:
+    - image: ellmo/ruby-hemi:0.0.3
+      environment:
+        RAILS_ENV: test
+        BUNDLE_PATH: vendor/bundle
+        BUNDLER_VERSION: 2.1.4
+  executor: ruby/default
+
+jobs:
+  build:
+    <<: *ruby_machine
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/hemi
+      - run:
+          name: Bundle install
+          command: |
+            gem install bundler -v=${BUNDLER_VERSION}
+            bundle install --path=vendor/bundle
+      - persist_to_workspace:
+          root: ~/hemi
+          paths:
+            - vendor/bundle
+  test:
+    <<: *ruby_machine
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/hemi
+      - run:
+          name: RSpec
+          command: |
+            gem install bundler -v=${BUNDLER_VERSION}
+            bundle exec rspec
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
