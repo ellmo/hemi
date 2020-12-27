@@ -1,4 +1,4 @@
-describe Hemi::Render::Sprite do
+describe Hemi::Render::Sprite, fake_display: true  do
   shared_examples "sprite initialization and registration" do
     before { described_class.purge! }
 
