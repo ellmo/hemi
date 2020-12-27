@@ -2,7 +2,9 @@ require "hemi"
 require "simplecov"
 require "./spec/support/fake_display"
 
-SimpleCov.start
+SimpleCov.start do
+  add_filter ["/spec/", "/demo/"]
+end
 
 class TestSuite
   prepend Hemi::Engine
