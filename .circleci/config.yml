@@ -27,10 +27,18 @@ jobs:
           command: |
             gem install bundler -v=${BUNDLER_VERSION}
             bundle install --path=vendor/bundle
+      - run:
+          name: Download cc-test-reporter
+          command: |
+            mkdir -p tmp/
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./tmp/cc-test-reporter
+            chmod +x ./tmp/cc-test-reporter
       - persist_to_workspace:
           root: ~/hemi
           paths:
             - vendor/bundle
+            - tmp/cc-test-reporter
+
   test:
     <<: *ruby_machine
     steps:
@@ -42,6 +50,21 @@ jobs:
           command: |
             gem install bundler -v=${BUNDLER_VERSION}
             bundle exec rspec
+            ./tmp/cc-test-reporter format-coverage -t simplecov -o tmp/codeclimate.backend.json coverage/backend/.resultset.json
+      - persist_to_workspace:
+          root: ~/hemi
+          paths:
+            - tmp/codeclimate.backend.json
+  upload_coverage:
+    <<: *ruby_machine
+    steps:
+      - attach_workspace:
+          at: ~/hemi
+      - run:
+          name: Upload coverage results to Code Climate
+          command: |
+            ./tmp/cc-test-reporter sum-coverage tmp/codeclimate.*.json -p 1 -o tmp/codeclimate.total.json
+            ./tmp/cc-test-reporter upload-coverage -i tmp/codeclimate.total.json
 
 workflows:
   version: 2
@@ -51,3 +74,6 @@ workflows:
       - test:
           requires:
             - build
+      - upload_coverage:
+          requires:
+            - test
