@@ -55,7 +55,7 @@ describe Hemi::Event::LoopMachine do
     end
   end
 
-  describe "#call" do
+  describe "#call", fake_display: true  do
     describe "processing logic" do
       subject  { described_class.instance.call }
 
