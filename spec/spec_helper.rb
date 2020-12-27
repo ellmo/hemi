@@ -1,5 +1,8 @@
 require "hemi"
+require "simplecov"
 require "./spec/support/fake_display"
+
+SimpleCov.start
 
 class TestSuite
   prepend Hemi::Engine
