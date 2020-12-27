@@ -1,4 +1,4 @@
-describe Hemi::Render::Font do
+describe Hemi::Render::Font, fake_display: true  do
   shared_examples "font initialization and registration" do
     before { described_class.purge! }
 
