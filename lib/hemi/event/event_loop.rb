@@ -1,11 +1,10 @@
 module Hemi::Event
   class EventLoop
+    include Hemi::Event::KeyHandler
 
     def initialize(logic, events)
       @logic  = logic
-      @events = events.each_with_object({}) do |(key, action), hsh|
-        hsh[SDL2::Key::Scan.const_get(key.upcase)] = action
-      end
+      register_events!(events)
     end
 
     attr_reader :logic, :events, :event
@@ -17,8 +16,6 @@ module Hemi::Event
       when SDL2::Event::KeyDown
         handle_key
       end
-
-      @event = nil
     end
 
     def process
@@ -28,22 +25,12 @@ module Hemi::Event
   private
 
     def handle_key
-      case action = events[event.scancode]
+      case action = events[[event.scancode, event.mod]]
       when Symbol
         instance_eval action.to_s
       when Proc
         action.call
       end
-    end
-
-    def key_event?
-      event.is_a?
-    end
-
-    def key_down
-      return unless key_event?
-
-      SDL2::Key::Scan.const_get(event.scancode).downcase
     end
 
     def debug!
