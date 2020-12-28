@@ -41,6 +41,11 @@ Style/ClassAndModuleChildren:
 Style/Documentation:
   Enabled: false
 
+# NAMING
+Naming/FileName:
+  Exclude:
+    - 'demo/**/*'
+
 # RSPEC
 RSpec/ContextWording:
   Enabled: false
