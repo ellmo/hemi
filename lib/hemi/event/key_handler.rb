@@ -1,16 +1,9 @@
 module Hemi::Event
   module KeyHandler
-    MOD_KEYS = %i[LSHIFT RSHIFT LCTRL RCTRL LALT RALT LGUI RGUI].freeze
-
-    MOD_MAPPINGS = MOD_KEYS.each_with_object({}) do |key, hsh|
-      scancode = SDL2::Key::Mod.const_get(key)
-      hsh[key] = scancode
-    end
-
   private
 
     def handle_key
-      case action = events[[event.scancode, event.mod]]
+      case action = events[event.structize]
       when Symbol
         instance_eval action.to_s
       when Proc
@@ -24,16 +17,13 @@ module Hemi::Event
 
     def event_hash(events)
       events.each_with_object({}) do |(input, action), hsh|
-        key, mod = if input.is_a? Array
-                     keys = input.map(&:upcase)
-                     key  = keys.shift
-                     mods = keys.map { |x| MOD_MAPPINGS[x.upcase] }
-                     [key, mods.sum]
-                   else
-                     [input.upcase, 0]
-                   end
+        key, mods = if input.is_a? Array
+                      [input.shift, input]
+                    else
+                      input
+                    end
 
-        hsh[[SDL2::Key::Scan.const_get(key), mod]] = action
+        hsh[Hemi::Event::Pattern::Key.new(key, mods: mods)] = action
       end
     end
   end
