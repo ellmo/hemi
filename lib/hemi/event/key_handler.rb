@@ -7,6 +7,17 @@ module Hemi::Event
       hsh[key] = scancode
     end
 
+  private
+
+    def handle_key
+      case action = events[[event.scancode, event.mod]]
+      when Symbol
+        instance_eval action.to_s
+      when Proc
+        action.call
+      end
+    end
+
     def register_events!(events)
       @events = event_hash(events)
     end

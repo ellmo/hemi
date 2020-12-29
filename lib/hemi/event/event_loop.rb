@@ -24,15 +24,6 @@ module Hemi::Event
 
   private
 
-    def handle_key
-      case action = events[[event.scancode, event.mod]]
-      when Symbol
-        instance_eval action.to_s
-      when Proc
-        action.call
-      end
-    end
-
     def debug!
       Hemi::Engine.debug_on!
     end
