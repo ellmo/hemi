@@ -26,7 +26,7 @@ class ModKeysDemo
 
   def main_events
     {
-      right: -> { @gem_x += 2 },
+      %i[right] => -> { @gem_x += 2 },
       %i[right lshift] => -> { @gem_x += 10 },
       %i[right lshift lgui] => -> { @gem_x += 50 },
 

@@ -21,7 +21,7 @@ module Hemi::Event
       end
 
       def inspect
-        "#<#{self.class}:#{hash} scancode=#{scancode} mod=#{modcode}>"
+        "#<#{self.class}:#{hash} key=#{key} mods=#{mods.join(', ')}>"
       end
 
       def key_to_scancode
