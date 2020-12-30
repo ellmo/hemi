@@ -2,7 +2,7 @@ module Hemi::Render
   class Texture
     ERR__INVALID_POSITION = "Ivalid position.".freeze
 
-    def initialize(name)
+    def initialize
       raise NotImplementedError
     end
 
