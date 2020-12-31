@@ -66,7 +66,7 @@ module Hemi::Render
         position_obj.x = position[:x]
         position_obj.y = position[:y]
       else
-        raise ArgumentError(ERR__INVALID_POSITION)
+        raise ArgumentError, ERR__INVALID_POSITION
       end
 
       position_obj
