@@ -41,12 +41,23 @@ Style/ClassAndModuleChildren:
 Style/Documentation:
   Enabled: false
 
+# NAMING
+Naming/FileName:
+  Exclude:
+    - 'demo/**/*'
+
 # RSPEC
 RSpec/ContextWording:
   Enabled: false
+RSpec/MessageSpies:
+  Enabled: false
+RSpec/MultipleExpectations:
+  Max: 5
 RSpec/NamedSubject:
   Enabled: false
 RSpec/NestedGroups:
   Max: 5
+RSpec/SubjectStub:
+  Enabled: false
 RSpec/VerifiedDoubles:
   Enabled: false

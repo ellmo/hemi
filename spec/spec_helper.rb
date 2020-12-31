@@ -8,6 +8,8 @@ end
 
 class TestSuite
   prepend Hemi::Engine
+
+  Hemi::Loader.load_tree "../../spec/support/matchers", relative: true
 end
 
 RSpec.configure do |config|
