@@ -1,9 +1,10 @@
 *.gem
 .DS_store
 .bundle/
-.yardoc/
+.yardoc
 
 vendor/bundle/
 examples/
 coverage/
+doc/
 
