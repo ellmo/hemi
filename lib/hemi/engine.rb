@@ -11,28 +11,18 @@ module Hemi
   # `Hemi::Engine` will end up first in ancestors' list.
   #
   # So, technically, if `Game` implements its own `initialize` / `run` methods, those will be
-  # super-called from `Hemi::Engine`.
+  # super-called from `Hemi::Engine`:
   #
-  # @example using the engine
-  #   require "hemi"
+  # ```ruby
+  # require "hemi"
   #
-  #   class Game
-  #     prepend Hemi::Engine
+  # class Game
+  #   prepend Hemi::Engine
+  # end
   #
-  #     def initialize
-  #       [...]
-  #     end
-  #
-  #     def run
-  #       [...]
-  #     end
-  #   end
-  #
-  #   Game.instance.run
-  #
-  # @example ancestors list
-  #   Game.ancestors
-  #   => [Hemi::Engine, Game, Singleton, Object, PP::ObjectMixin, Kernel, BasicObject]
+  # Game.ancestors
+  # => [Hemi::Engine, Game, Singleton, Object, PP::ObjectMixin, Kernel, BasicObject]
+  # ```
   module Engine
     @debug = false
     @stop  = false
@@ -51,10 +41,12 @@ module Hemi
     class << self
       # @return [Boolean] Returns `true` if the engine is set to debugging mode.
       attr_reader :debug
-      # @return [Boolean] Returns `true` if the engine is set gracefully exit upon finishing the
-      #   next loop.
+      # @return [Boolean] Returns `true` if the engine is set to gracefully exit upon finishing
+      #   this event loop.
       attr_reader :stop
 
+      # Ran when a class calls to be prepended by this module.
+      #
       # As mentioned - this module is meant to be _prepended_ in the main game class. When
       # prepended, this method is automatically ran, making the class a Singleton and makes sure all
       # `Hemi` modules are loaded in required order.

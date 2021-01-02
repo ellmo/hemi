@@ -7,26 +7,23 @@ Made for self-educational purposes.
 
 ## Usage
 
-### 1. Required libraries
-
+### 0. Required libraries
 Install `sdl2`, `sdl2_image`, `sdl2_mixer` and `sdl2_ttf` libraries.
 For MacOS you can simply `brew install` all of them.
 
-### 2. Using the gem
+### 1. Using the gem
 
-#### 2.0
-
+#### 1.0 installation
 Install the gem, either straight-up with `gem install hemi` or using Bundler:
 
-`Gemfile`
 ```ruby
+# Gemfile
 source "https://rubygems.org"
 
 gem "hemi"
 ```
 
-#### 2.1 prepend your starting class
-
+#### 1.1 prepend your starting class
 ```ruby
 require "hemi"
 
@@ -36,9 +33,8 @@ end
 
 ```
 
-#### 2.2 prepare a logic proc
+#### 1.2 prepare a logic proc
 This `proc` will contain logic to be performed during each rendered frame.
-
 ```ruby
 Font   = Hemi::Render::Font
 Sprite = Hemi::Render::Sprite
@@ -63,8 +59,7 @@ def sprite_logic
 end
 ```
 
-#### 2.3 prepare an event:action hash
-
+#### 1.3 prepare an {event:action} hash
 ```ruby
 LM = Hemi::Event::LoopMachine
 
@@ -87,7 +82,7 @@ def sprite_events
 end
 ```
 
-#### 2.4 register Loop Machine states
+#### 1.4 register Loop Machine states
 ```ruby
 def run
   LM.register(:text, text_logic, text_events)
@@ -95,7 +90,7 @@ def run
 end
 ```
 
-#### 2.5 and run it
+#### 1.5 and run it
 ```ruby
 Game.instance.run
 ```
