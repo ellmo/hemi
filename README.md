@@ -7,37 +7,95 @@ Made for self-educational purposes.
 
 ## Usage
 
-#### 1. Required libraries
+### 1. Required libraries
 
-Install `sdl2`, `sdl2_image`, `sdl2_mixer` and `sdl2_ttf` libraries. For MacOS you can simply `brew install` all of them.
+Install `sdl2`, `sdl2_image`, `sdl2_mixer` and `sdl2_ttf` libraries.
+For MacOS you can simply `brew install` all of them.
 
-#### 2. Using gem
+### 2. Using the gem
 
-Refer to [demo](https://github.com/ellmo/hemi/blob/master/demo/loop_machine_demo.rb) for now.
+#### 2.0
 
-## Development
-(`sdl2` libs are - obviously - still required)
+Install the gem, either straight-up with `gem install hemi` or using Bundler:
 
-#### 1. Install Ruby and gems
+`Gemfile`
+```ruby
+source "https://rubygems.org"
 
-Install specific ruby version using Rbenv (`rbenv install`) or RVM (yuck)
+gem "hemi"
+```
 
-Make sure you have Bundler gem installed for this revsion (`gem install bundler -v=1.17.3`)
+#### 2.1 prepend your starting class
 
-And `bundle install` away.
+```ruby
+require "hemi"
 
-#### 2. Update code (and bump the version)
+class Game
+  prepend Hemi::Engine
+end
 
-Dont forget to `git tag` and push with `--tags option`
+```
 
-#### 3. Build and push to Rubygems
+#### 2.2 prepare a logic proc
+This `proc` will contain logic to be performed during each rendered frame.
 
-`gem build hemi.gemspec`
+```ruby
+Font   = Hemi::Render::Font
+Sprite = Hemi::Render::Sprite
 
-`gem push hemi-{VERSION}.gem`
+def text_logic
+  proc {
+    Font[:jost_32].render("quick brown fox jumped over the lazy dog", position: [20, 20])
+    Font[:jost_16].render("press [space] to change LoopState", position: [20, 400])
+    Font[:jost_16].render("press [q] or [esc] to quit", position: [20, 420])
+    Font[:jost_16].render("press [F12] to start debug", position: [20, 440])
+  }
+end
 
-And if you need to test gem installation locally:
+def sprite_logic
+  proc {
+    Sprite[:gem].render(position: { y: 220, x: 20 })
+    Sprite[:gem].render(position: { y: 320, x: 220 }, size: { height: 64, width: 128 })
+    Font[:jost_16].render("press [space] to change LoopState", position: [20, 400])
+    Font[:jost_16].render("press [q] or [esc] to quit", position: [20, 420])
+    Font[:jost_16].render("press [F12] to start debug", position: [20, 440])
+  }
+end
+```
 
-`gem push hemi-{VERSION}.gem`
+#### 2.3 prepare an event:action hash
 
+```ruby
+LM = Hemi::Event::LoopMachine
 
+def text_events
+  {
+    space: -> { LM.switch(:image) },
+    escape: :stop!,
+    q:      :stop!,
+    f12:    :debug!
+  }
+end
+
+def sprite_events
+  {
+    space: -> { LM.switch(:text) },
+    escape: :stop!,
+    q:      :stop!,
+    f12:    :debug!
+  }
+end
+```
+
+#### 2.4 register Loop Machine states
+```ruby
+def run
+  LM.register(:text, text_logic, text_events)
+  LM.register(:image, sprite_logic, sprite_events)
+end
+```
+
+#### 2.5 and run it
+```ruby
+Game.instance.run
+```
