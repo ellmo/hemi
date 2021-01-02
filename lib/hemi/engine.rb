@@ -44,16 +44,22 @@ module Hemi
       super
     end
 
-    # @private
+    # @return [SDL2::Window]
+    # @api private
     attr_reader :window
 
     class << self
-      # @private
-      attr_reader :debug, :stop
+      # @return [Boolean] Returns `true` if the engine is set to debugging mode.
+      attr_reader :debug
+      # @return [Boolean] Returns `true` if the engine is set gracefully exit upon finishing the
+      #   next loop.
+      attr_reader :stop
 
       # As mentioned - this module is meant to be _prepended_ in the main game class. When
       # prepended, this method is automatically ran, making the class a Singleton and makes sure all
       # `Hemi` modules are loaded in required order.
+      #
+      # @param [Class] klass
       def prepended(klass)
         klass.include Singleton
 
