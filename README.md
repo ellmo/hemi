@@ -35,6 +35,7 @@ end
 
 #### 1.2 prepare a logic proc
 This `proc` will contain logic to be performed during each rendered frame.
+
 ```ruby
 Font   = Hemi::Render::Font
 Sprite = Hemi::Render::Sprite
