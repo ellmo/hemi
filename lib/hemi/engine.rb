@@ -57,6 +57,7 @@ module Hemi
 
         Loader.load_tree "helpers"
         Loader.load_tree "render"
+        Loader.load_tree "hud"
         Loader.load_tree "input"
         Loader.load_tree "event"
       end
@@ -104,6 +105,7 @@ module Hemi
     # its event loops.
     def run
       super if defined?(super)
+
       init_window
       start_loop
     end

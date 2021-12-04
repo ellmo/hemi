@@ -7,6 +7,7 @@ module Hemi::Render
 
     def initialize(width = DEFAULT_WINDOW_WIDTH, height = DEFAULT_WINDOW_HEIGHT)
       @size = Size.new(width: width, height: height)
+      spawn_container!
     end
 
     attr_reader :size
@@ -25,6 +26,10 @@ module Hemi::Render
       )
     end
 
+    def spawn_container!
+      Hemi::Hud::Container.new(:root, size: :full, parent: nil)
+    end
+
     def self.wipe_screen
       instance.renderer.draw_color = [0, 0, 0]
       instance.renderer.fill_rect(SDL2::Rect.new(0, 0, *instance.size))
@@ -32,6 +37,12 @@ module Hemi::Render
 
     def self.renderer
       instance.renderer
+    end
+
+  private
+
+    def container
+      @container ||= Hemi::Hud::Container.new(:root, size: :full, parent: self)
     end
   end
 end

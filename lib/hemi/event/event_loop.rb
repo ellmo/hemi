@@ -2,12 +2,13 @@ module Hemi::Event
   class EventLoop
     include Hemi::Event::KeyHandler
 
-    def initialize(logic, events)
+    def initialize(name, logic, events)
+      @name   = name
       @logic  = logic
       register_events!(events)
     end
 
-    attr_reader :logic, :events, :event
+    attr_reader :name, :logic, :events, :event
 
     def handle(event)
       @event = event

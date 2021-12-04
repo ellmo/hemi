@@ -65,7 +65,7 @@ module Hemi::Event
       #     end
       #   end
       def register(name, logic = proc {}, events = {})
-        event_loop   = EventLoop.new(logic, events)
+        event_loop   = EventLoop.new(name, logic, events)
         @current     = event_loop if loops.empty?
         @loops[name] = event_loop
 
