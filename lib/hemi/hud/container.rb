@@ -17,14 +17,13 @@ module Hemi::Hud
       @color      = color
 
       enum_validate :anchor unless parent.nil?
-
-      register!
     end
 
     attr_reader :name, :color
 
     class << self
-      def register(container)
+      def register(name, size: :full, anchor: nil, color: nil, parent: nil)
+        container = Container.new(name, size: size, anchor: anchor, color: color, parent: parent)
         @containers[container.name] = container
       end
 
@@ -51,10 +50,6 @@ module Hemi::Hud
     def register_backround!
       @background = "__hud_box_#{name}".to_sym
       Hemi::Render::Box.new(@background, color: color, size: size)
-    end
-
-    def register!
-      self.class.register self
     end
   end
 end
