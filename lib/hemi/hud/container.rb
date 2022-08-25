@@ -3,17 +3,7 @@ module Hemi::Hud
     extend Enum
     include Dimensionable
 
-    enum :anchor, %i[
-      top_left
-      top
-      top_right
-      left
-      center
-      right
-      bottom_left
-      bottom
-      bottom_right
-    ]
+    enum :anchor, Dimensionable::ANCHORS
 
     @containers = {}
 

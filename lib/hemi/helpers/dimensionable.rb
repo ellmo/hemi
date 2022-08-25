@@ -1,12 +1,16 @@
 module Dimensionable
-  # @position   = nil
-  # @size       = nil
-  # @parent     = nil
-  # @anchor     = nil
-  # @dimensions = nil
-
   # ERR__ARRAY_COUNT_WRONG   = "Size Array can be 1 or 2 elements".freeze
   ERR__UNRECOG_SIZE_FORMAT = "Unrecognized size format".freeze
+
+  ANCHORS = %i[ top_left
+                top
+                top_right
+                left
+                center
+                right
+                bottom_left
+                bottom
+                bottom_right].freeze
 
   attr_reader :anchor
 
@@ -45,6 +49,14 @@ private
     when :bottom_left
       { x: parent.position.x,
         y: parent.position.y + parent.size.height - size.height }
+    when :bottom_right
+      { x: parent.position.x + parent.size.width - size.width,
+        y: parent.position.y + parent.size.height - size.height }
+    when :center
+      {
+        x: (parent.position.x + parent.size.width - size.width) / 2,
+        y: (parent.position.y + parent.size.height - size.height) / 2
+      }
     end
   end
 
