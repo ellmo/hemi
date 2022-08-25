@@ -31,6 +31,7 @@ module Hemi
     # class it prepends.
     def initialize
       sdl_init
+
       super
     end
 
@@ -106,7 +107,6 @@ module Hemi
     def run
       super if defined?(super)
 
-      init_window
       start_loop
     end
 
@@ -114,9 +114,6 @@ module Hemi
 
     def sdl_init
       SDL2.init(SDL2::INIT_EVERYTHING)
-    end
-
-    def init_window
       @window = Hemi::Render::Window.instance
     end
 
