@@ -1,6 +1,7 @@
 module Hemi::Hud
   class Container
     extend Enum
+    include Dimensionable
 
     enum :anchor, %i[
       top_left
@@ -19,21 +20,20 @@ module Hemi::Hud
     #   Size and parent cannot be resolved on init, because at this point
     # SDL might not have been initiated at all.
     def initialize(name, size: :full, anchor: nil, color: nil, parent: nil)
-      @pre_values = { size: size, parent: parent }
+      # @pre_values = { size: size, parent: parent }
 
       @name       = name
       @anchor     = anchor
-      @parent     = nil
-      @size       = nil
+      @parent     = parent
+      @size       = size
       @color      = color
-      @background = nil
 
       enum_validate :anchor unless parent.nil?
-      register!
 
+      register!
     end
 
-    attr_reader :name, :parent, :color, :size
+    attr_reader :name, :color
 
     class << self
       # attr_reader :texture_manager
@@ -60,48 +60,14 @@ module Hemi::Hud
     # If size is yet undetermined - we know this container has never been rendered
     # so we calculate size based on parent.
     def render
-      fetch_parent! && calculate_size! && register_backround! unless size
+      register_backround! unless @background
 
-      Hemi::Render::Box[@background].render(position: Position.new(y: 0, x: 0))
-      #texture_manager.register
+      Hemi::Render::Box[@background].render(position: position)
+      # texture_manager.register
       # Hemi::Render::Window.renderer.copy(texture, nil, rectangle(position: position, size: size))
     end
 
   private
-
-    def fetch_parent!
-      @parent = case @pre_values[:parent]
-                when :root, nil
-                  Hemi::Render::Window.instance
-                end
-    end
-
-    # FIXME: fucking fix me
-    def calculate_size!
-      @size = case parent
-              when Hemi::Render::Window, Hemi::Hud::Container
-                case (pre_size = @pre_values[:size])
-                when :full
-                  parent.size
-                when Array # handle exceptions for non 2-element arrays
-                  raise ArgumentError if pre_size.count > 2
-                  raise ArgumentError if pre_size.map(&:class).uniq.count != 1
-
-                  case pre_size.first
-                  when String
-                    # need a separate method for parsing percentage strings
-                    Size.new(height: parent.size.height * 0.5, width: parent.size.width * 0.5)
-                  when Integer
-                    Size.new(height: pre_size.first, width: pre_size.last)
-                  else
-                    # TODO: the following should be a custom exception
-                    raise ArgumentError, "Unrecognized size format"
-                  end
-                when Struct
-                  raise NotImplementedError, "Struct data type not supported yet"
-                end
-              end
-    end
 
     def register_backround!
       @background = "__hud_box_#{name}".to_sym
