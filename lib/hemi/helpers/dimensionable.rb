@@ -20,6 +20,8 @@ module Dimensionable
                             Hemi::Render::Window.instance
                           when :root
                             Hemi::Render::Window.instance.container
+                          else
+                            Hemi::Hud::Container[@parent]
                           end
   end
 
