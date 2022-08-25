@@ -10,8 +10,6 @@ module Hemi::Hud
     #   Size and parent cannot be resolved on init, because at this point
     # SDL might not have been initiated at all.
     def initialize(name, size: :full, anchor: nil, color: nil, parent: nil)
-      # @pre_values = { size: size, parent: parent }
-
       @name       = name
       @anchor     = anchor
       @parent     = parent
@@ -26,11 +24,8 @@ module Hemi::Hud
     attr_reader :name, :color
 
     class << self
-      # attr_reader :texture_manager
-
       def register(container)
         @containers[container.name] = container
-        # register_texture_manager
       end
 
       def [](name)
@@ -40,10 +35,6 @@ module Hemi::Hud
       def list
         @containers
       end
-
-      # def register_texture_manager
-      #   @texture_manager = Hemi::Render::Texture
-      # end
     end
 
     #   Render the container itself and all the items it includes (future).
@@ -53,8 +44,6 @@ module Hemi::Hud
       register_backround! unless @background
 
       Hemi::Render::Box[@background].render(position: position)
-      # texture_manager.register
-      # Hemi::Render::Window.renderer.copy(texture, nil, rectangle(position: position, size: size))
     end
 
   private
@@ -67,9 +56,5 @@ module Hemi::Hud
     def register!
       self.class.register self
     end
-
-    # def texture_manager
-    #   self.class.texture_manager
-    # end
   end
 end
