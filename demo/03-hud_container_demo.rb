@@ -21,7 +21,9 @@ class HudContainerDemo
     LM.register(:main, main_actions, main_events.merge(program_controls))
     LM.register(:menu, menu_actions, menu_events.merge(program_controls))
 
-    HUD.new(:main, color: [200, 100, 0], anchor: :bottom_left, size: [100, 40])
+    HUD.new(:red, color: [255, 80, 80], anchor: :top_left, size: [200, 200])
+    HUD.new(:green, color: [80, 255, 80], anchor: :center, size: [150, 150])
+    HUD.new(:blue, color: [80, 80, 255], anchor: :bottom_right, size: [100, 100])
   end
 
   def main_actions
@@ -33,7 +35,10 @@ class HudContainerDemo
 
   def menu_actions
     proc {
-      HUD[:main].render
+      HUD[:red].render
+      HUD[:green].render
+      HUD[:blue].render
+
       display_hints
     }
   end
