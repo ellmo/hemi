@@ -10,7 +10,11 @@ module Hemi::Render
       spawn_container!
     end
 
-    attr_reader :size
+    def position
+      container.position
+    end
+
+    attr_reader :size, :container
 
     def renderer
       @renderer ||= sdl_window.create_renderer(-1, 0)
@@ -27,7 +31,7 @@ module Hemi::Render
     end
 
     def spawn_container!
-      Hemi::Hud::Container.new(:root, size: :full, parent: nil)
+      @container = Hemi::Hud::Container.new(:root, size: :full, parent: nil)
     end
 
     def self.wipe_screen
@@ -37,12 +41,6 @@ module Hemi::Render
 
     def self.renderer
       instance.renderer
-    end
-
-  private
-
-    def container
-      @container ||= Hemi::Hud::Container.new(:root, size: :full, parent: self)
     end
   end
 end
