@@ -13,7 +13,7 @@ class LoopMachineDemo
     LM.register(:image, sprite_logic, sprite_events)
     LM.register(:box, box_logic, box_events)
 
-    Box.new(:redbox, color: [255, 0, 0], size: [32, 32])
+    #Box.new(:redbox, color: [255, 0, 0], size: [32, 32])
   end
 
   def text_logic

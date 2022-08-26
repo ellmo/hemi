@@ -31,6 +31,7 @@ module Hemi
     # class it prepends.
     def initialize
       sdl_init
+
       super
     end
 
@@ -57,6 +58,7 @@ module Hemi
 
         Loader.load_tree "helpers"
         Loader.load_tree "render"
+        Loader.load_tree "hud"
         Loader.load_tree "input"
         Loader.load_tree "event"
       end
@@ -104,7 +106,7 @@ module Hemi
     # its event loops.
     def run
       super if defined?(super)
-      init_window
+
       start_loop
     end
 
@@ -112,9 +114,6 @@ module Hemi
 
     def sdl_init
       SDL2.init(SDL2::INIT_EVERYTHING)
-    end
-
-    def init_window
       @window = Hemi::Render::Window.instance
     end
 

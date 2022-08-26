@@ -7,9 +7,14 @@ module Hemi::Render
 
     def initialize(width = DEFAULT_WINDOW_WIDTH, height = DEFAULT_WINDOW_HEIGHT)
       @size = Size.new(width: width, height: height)
+      spawn_container!
     end
 
-    attr_reader :size
+    def position
+      container.position
+    end
+
+    attr_reader :size, :container
 
     def renderer
       @renderer ||= sdl_window.create_renderer(-1, 0)
@@ -23,6 +28,10 @@ module Hemi::Render
         *size,
         0
       )
+    end
+
+    def spawn_container!
+      @container = Hemi::Hud::Container.new(:root, size: :full, parent: nil)
     end
 
     def self.wipe_screen
